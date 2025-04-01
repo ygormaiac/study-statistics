@@ -2,10 +2,12 @@
 
 O Study Timer é uma aplicação desenvolvida em React e Next.js que permite aos usuários monitorar o tempo de estudo de diferentes disciplinas e tópicos. A ferramenta auxilia no gerenciamento do tempo de estudo, salvando os registros no localStorage e exibindo estatísticas visuais. Este projeto é um teste técnico para a vaga de Desenvolvedor Frontend NextJs na [Vício de uma estudante](https://viciodeumaestudante.com.br/).
 
+![Alt text](study-timer.png)
+
 ## Funcionalidades
 
 - Selecionar uma disciplina e um tópico de estudo.
-![Alt text](study-timer.png)
+
 - Iniciar, pausar e resetar um cronômetro para monitorar o tempo de estudo.
 
 - Salvar os tempos de estudo para futura consulta.
