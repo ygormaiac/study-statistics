@@ -96,9 +96,8 @@ export default function StudyTimer() {
         </div>
         <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
           <h2 className="text-lg font-bold">Confirmar salvamento?</h2>
-          <p>Você deseja salvar {time}s para {selectedSubject} - {selectedTopic}?</p>
+          <p>Você deseja salvar o tempo de {time}s para a disciplina de {selectedSubject} - {selectedTopic}?</p>
           <Button onClick={confirmSave}>Confirmar</Button>
-          <Button onClick={() => setIsModalOpen(false)}>Cancelar</Button>
         </Modal>
         <div className="flex flex-col gap-3 mt-14">
           <Button>
