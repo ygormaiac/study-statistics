@@ -1,103 +1,140 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { useState, useEffect } from 'react';
+import { Button } from '@/components/ui/button';
+import { Select } from '@/components/ui/select';
+import { Modal } from '@/components/ui/modal';
+import { useStudy } from "@/app/context/StudyContext";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import Link from 'next/link';
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer"
+import { formatTime } from './utils/formatTime';
+
+
+type Record = {
+  subject: string;
+  topic: string;
+  time: number;
+};
+
+const subjects: string[] = ['Direito', 'Português', 'Informática'];
+const topics: { [key: string]: string[] } = {
+  Direito: ['Direito Penal', 'Direito Constitucional', 'Direito da Família'],
+  Português: ['Gramática', 'Interpretação Textual'],
+  Informática: ['Hardware', 'Inteligência Artificial'],
+};
+
+export default function StudyTimer() {
+  const { records, addRecord } = useStudy();
+  const [selectedSubject, setSelectedSubject] = useState<string>('');
+  const [selectedTopic, setSelectedTopic] = useState<string>('');
+  const [time, setTime] = useState<number>(0);
+  const [isRunning, setIsRunning] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  const data = records.reduce<{ label: string; total: number }[]>((acc, record) => {
+    const label = `${record.subject} - ${record.topic}`;
+    const index = acc.findIndex((item) => item.label === label);
+    if (index !== -1) {
+      acc[index].total += record.time;
+    } else {
+      acc.push({ label, total: record.time });
+    }
+    return acc;
+  }, []);
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (isRunning) {
+      interval = setInterval(() => setTime((prev) => prev + 1), 1000);
+    }
+    return () => clearInterval(interval);
+  }, [isRunning]);
+
+  const saveTime = () => {
+    if (!selectedSubject || !selectedTopic) return;
+    setIsModalOpen(true);
+  };
+
+  const confirmSave = () => {
+    const newRecord: Record = { subject: selectedSubject, topic: selectedTopic, time };
+    addRecord(newRecord);
+    setTime(0);
+    setIsModalOpen(false);
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="flex items-center justify-center h-screen w-full">
+      <div className="p-6 bg-gradient-to-br from-zinc-900 to-zinc-850 flex flex-col justify-center items-center rounded-xl border border-gray-600">
+        <h1 className="text-2xl font-bold mb-4 text-white">Cronômetro de Estudos</h1>
+        <div className="flex flex-col gap-3 w-full">
+          <Select value={selectedSubject} onChange={(e) => setSelectedSubject(e.target.value)}>
+            <option value="">Selecione uma disciplina</option>
+            {subjects.map((s) => <option key={s} value={s}>{s}</option>)}
+          </Select>
+          <Select value={selectedTopic} onChange={(e) => setSelectedTopic(e.target.value)}>
+            <option value="">Selecione um tema</option>
+            {topics[selectedSubject]?.map((t) => <option key={t} value={t}>{t}</option>)}
+          </Select>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        <div className="my-4 text-xl text-white font-semibold">Tempo: {formatTime(time)}</div>
+        <div className="flex gap-3">
+          <Button onClick={() => setIsRunning(!isRunning)}>
+            {isRunning ? 'Pausar' : 'Iniciar'}
+          </Button>
+          <Button onClick={() => setTime(0)}>Resetar</Button>
+          <Button onClick={saveTime}>Salvar tempo</Button>
+        </div>
+        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+          <h2 className="text-lg font-bold">Confirmar salvamento?</h2>
+          <p>Você deseja salvar {time}s para {selectedSubject} - {selectedTopic}?</p>
+          <Button onClick={confirmSave}>Confirmar</Button>
+          <Button onClick={() => setIsModalOpen(false)}>Cancelar</Button>
+        </Modal>
+        <div className="flex flex-col gap-3 mt-14">
+          <Button>
+            <Link href={'/records'}>Últimos Estudos</Link>
+          </Button>
+          <Drawer>
+            <DrawerTrigger>
+              <Button variant="outline">
+                Estatísticas de Estudos
+                <span className="bg-zinc-500 text-white text-xs font-bold rounded-full px-2 py-1 ml-2">NOVO</span>
+              </Button>
+            </DrawerTrigger>
+            <DrawerContent>
+              <DrawerHeader>
+                <DrawerTitle>Estatísticas de Estudos</DrawerTitle>
+                <DrawerDescription>Gráfico para acompanhamento do seu desempenho de estudos</DrawerDescription>
+              </DrawerHeader>
+              <div className="p-4">
+                <ResponsiveContainer width="100%" height={300}>
+                  <BarChart data={data}>
+                    <XAxis dataKey="label" />
+                    <YAxis />
+                    <Tooltip />
+                    <Bar dataKey="total" fill="#71717A" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+              <DrawerFooter>
+                <DrawerClose>
+                  <Button variant="outline">Fechar</Button>
+                </DrawerClose>
+              </DrawerFooter>
+            </DrawerContent>
+          </Drawer>
+        </div>
+      </div>
     </div>
   );
 }

@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Study Timer - Estatísticas de Estudos
 
-## Getting Started
+O Study Timer é uma aplicação desenvolvida em React e Next.js que permite aos usuários monitorar o tempo de estudo de diferentes disciplinas e tópicos. A ferramenta auxilia no gerenciamento do tempo de estudo, salvando os registros no localStorage e exibindo estatísticas visuais. Este projeto é um teste técnico para a vaga de Desenvolvedor Frontend NextJs na [Vício de uma estudante](https://viciodeumaestudante.com.br/).
 
-First, run the development server:
+## Funcionalidades
+
+- Selecionar uma disciplina e um tópico de estudo.
+![Alt text](study-timer.png)
+- Iniciar, pausar e resetar um cronômetro para monitorar o tempo de estudo.
+
+- Salvar os tempos de estudo para futura consulta.
+
+- Visualizar histórico de estudos.
+
+- Exibir estatísticas com gráficos.
+
+## Tecnologias Utilizadas
+
+- React e Next.js para desenvolvimento da interface.
+
+- Tailwind CSS para estilização.
+
+- ShadCN/UI para componentes reutilizáveis.
+
+- Recharts para visualização de dados.
+
+- LocalStorage para persistência dos dados do usuário.
+
+## Como Executar o Projeto
+
+Clone o repositório:
+
+```bash
+git clone https://github.com/seu-usuario/study-timer.git
+```
+
+Acesse o diretório do projeto:
+
+```bash
+cd study-timer
+```
+
+Instale as dependências:
+
+```bash
+npm install
+# or
+yarn install
+```
+
+Inicie o servidor de desenvolvimento:
 
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Acesse no navegador:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+http://localhost:3000
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Melhorias Futuras
 
-## Learn More
+- Adicionar suporte a contas de usuário e login.
 
-To learn more about Next.js, take a look at the following resources:
+- Permitir exportação dos registros de estudo.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Integração com calendários para planejamento.
