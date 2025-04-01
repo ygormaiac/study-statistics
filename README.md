@@ -40,7 +40,7 @@ O Study Timer é uma aplicação desenvolvida em React e Next.js que permite aos
 Clone o repositório:
 
 ```bash
-git clone https://github.com/seu-usuario/study-timer.git
+git clone https://github.com/ygormaiac/study-timer.git
 ```
 
 Acesse o diretório do projeto:
