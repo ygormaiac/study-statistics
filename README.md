@@ -16,6 +16,13 @@ O Study Timer é uma aplicação desenvolvida em React e Next.js que permite aos
 
 - Exibir estatísticas com gráficos.
 
+## Fluxo da aplicação:
+
+- Ao clicar no botão Estatísticas de estudo, você deverá ver uma drawer com gráficos de estatísticas sobre o tempo de estudo de cada disciplina.
+- Ao clicar no botão Últimos estudos, você deverá ser redirecionado para a page /records, onde conseguirá visualizar as últimas disciplinas estudadas e quanto tempo estudou cada uma de acordo com o cronômetro.
+- Para listar as últimas disciplinas, você deverá selecionar uma disciplina e um tema, iniciar o cronômetro e pausar/salvar o tempo.
+- Ao clicar no botão salvar, deverá aparecer um modal confirmando as informações.
+
 ## Tecnologias Utilizadas
 
 - React e Next.js para desenvolvimento da interface.
