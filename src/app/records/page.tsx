@@ -18,8 +18,10 @@ export default function StudyStats() {
             <>
               <h2 className="text-lg font-bold mb-2">Registros dos últimos estudos:</h2>
               {records.map((r, index) => (
-                <div key={index}>
-                  {r.subject} - {r.topic}: {formatTime(r.time)}
+                <div key={index} className="flex justify-between items-center">
+                  <div className="text-sm sm:text-base font-semibold mt-2">
+                    {r.subject} - {r.topic}: {formatTime(r.time)}
+                  </div>
                 </div>
               ))}
             </>

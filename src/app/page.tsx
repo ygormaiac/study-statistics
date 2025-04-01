@@ -73,8 +73,8 @@ export default function StudyTimer() {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen w-full">
-      <div className="p-6 bg-gradient-to-br from-zinc-900 to-zinc-850 flex flex-col justify-center items-center rounded-xl border border-gray-600">
+    <div className="flex items-center justify-center min-h-screen w-full px-4">
+      <div className="p-6 bg-gradient-to-br from-zinc-900 to-zinc-850 flex flex-col justify-center items-center rounded-xl border border-gray-600 w-full max-w-lg">
         <h1 className="text-2xl font-bold mb-4 text-white">Cronômetro de Estudos</h1>
         <div className="flex flex-col gap-3 w-full">
           <Select value={selectedSubject} onChange={(e) => setSelectedSubject(e.target.value)}>
@@ -86,26 +86,26 @@ export default function StudyTimer() {
             {topics[selectedSubject]?.map((t) => <option key={t} value={t}>{t}</option>)}
           </Select>
         </div>
-        <div className="my-4 text-xl text-white font-semibold">Tempo: {formatTime(time)}</div>
-        <div className="flex gap-3">
+        <div className="my-4 text-xl sm:text-2xl text-white font-semibold text-center">Tempo: {formatTime(time)}</div>
+        <div className="flex flex-col sm:flex-row gap-3 w-full justify-center">
           <Button onClick={() => setIsRunning(!isRunning)}>
             {isRunning ? 'Pausar' : 'Iniciar'}
           </Button>
           <Button onClick={() => setTime(0)}>Resetar</Button>
-          <Button onClick={saveTime}>Salvar tempo</Button>
+          <Button onClick={saveTime} className="w-full sm:w-auto">Salvar tempo</Button>
         </div>
         <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
           <h2 className="text-lg font-bold">Confirmar salvamento?</h2>
           <p>Você deseja salvar o tempo de {time}s para a disciplina de {selectedSubject} - {selectedTopic}?</p>
           <Button onClick={confirmSave}>Confirmar</Button>
         </Modal>
-        <div className="flex flex-col gap-3 mt-14">
-          <Button>
+        <div className="flex flex-col gap-3 mt-14 w-full">
+          <Button className="w-full">
             <Link href={'/records'}>Últimos Estudos</Link>
           </Button>
           <Drawer>
             <DrawerTrigger>
-              <Button variant="outline">
+              <Button className="w-full" variant="outline">
                 Estatísticas de Estudos
                 <span className="bg-zinc-500 text-white text-xs font-bold rounded-full px-2 py-1 ml-2">NOVO</span>
               </Button>
